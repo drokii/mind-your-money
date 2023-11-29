@@ -2,6 +2,7 @@ namespace mind_your_money_domain;
 
 public class Report
 {
+    public int Id { get; set; }
     public List<User> Users { get; set; }
     public List<Expense> Expenses { get; set; }
 
