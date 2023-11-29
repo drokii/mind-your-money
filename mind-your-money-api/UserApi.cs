@@ -5,27 +5,23 @@ using Microsoft.EntityFrameworkCore;
 
 namespace mind_your_money_api;
 
-class UserApi
+static class UserApi
 {
-    protected UserApi(){}
-    
+    private const String Endpoint = "/users";
+
     public static void BuildEndpoints(WebApplication app)
-    {
-        app.MapGet("/users", async (UserDb db) =>
-            await db.UserDbs.ToListAsync());
+    { 
+        app.MapGet(Endpoint, async (UserDb db) => 
+            await db.Users.ToListAsync());
 
-        app.MapPost("/users/{id}",
-            async (int id, User inputUser, UserDb db) =>
+        app.MapPost(Endpoint,
+            async (User inputUser, UserDb db) =>
             {
-                var user = await db.UserDbs.FindAsync(id);
-
-                user.Name = inputUser.Name;
-                
-                Console.WriteLine("Creating User.");
-
+                db.Users.Add(inputUser);
                 await db.SaveChangesAsync();
-                
-                return Results.NoContent();
+
+                return Results.Created($"/users/{inputUser.Id}", inputUser);
             });
+        
     }
 }

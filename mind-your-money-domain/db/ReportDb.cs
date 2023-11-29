@@ -9,5 +9,5 @@ public class ReportDb : DbContext
     {
     }
 
-    public DbSet<ReportDb> ReportDbs => Set<ReportDb>();
+    public DbSet<ReportDb> Reports => Set<ReportDb>();
 }

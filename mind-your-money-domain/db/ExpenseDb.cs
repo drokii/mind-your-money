@@ -7,5 +7,5 @@ public class ExpenseDb : DbContext
     public ExpenseDb(DbContextOptions<UserDb> options)
         : base(options) {}
 
-    public DbSet<UserDb> ExpenseDbs => Set<UserDb>();
+    public DbSet<UserDb> Expenses => Set<UserDb>();
 }

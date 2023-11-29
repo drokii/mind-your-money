@@ -7,5 +7,5 @@ public class UserDb : DbContext
     public UserDb(DbContextOptions<UserDb> options)
         : base(options) {}
 
-    public DbSet<User> UserDbs => Set<User>();
+    public DbSet<User> Users => Set<User>();
 }
