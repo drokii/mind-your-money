@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using mind_your_money_domain;
 using mind_your_money_domain.db;
 using Microsoft.EntityFrameworkCore;

@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mind-your-money-api", "mind
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mind-your-money-domain", "mind-your-money-domain\mind-your-money-domain.csproj", "{1DEAE02E-4E74-44B7-BEDB-A93F0CF40BFB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mind-your-unit-tests", "mind-your-unit-tests\mind-your-unit-tests.csproj", "{C0238C40-7181-4491-BB09-37A59CE53BFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mind-your-integration-tests", "mind-your-integration-tests\mind-your-integration-tests.csproj", "{72A5D4A1-987C-4CFB-B1AE-712836B8A0D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{1DEAE02E-4E74-44B7-BEDB-A93F0CF40BFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DEAE02E-4E74-44B7-BEDB-A93F0CF40BFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DEAE02E-4E74-44B7-BEDB-A93F0CF40BFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0238C40-7181-4491-BB09-37A59CE53BFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0238C40-7181-4491-BB09-37A59CE53BFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0238C40-7181-4491-BB09-37A59CE53BFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0238C40-7181-4491-BB09-37A59CE53BFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72A5D4A1-987C-4CFB-B1AE-712836B8A0D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72A5D4A1-987C-4CFB-B1AE-712836B8A0D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72A5D4A1-987C-4CFB-B1AE-712836B8A0D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72A5D4A1-987C-4CFB-B1AE-712836B8A0D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
