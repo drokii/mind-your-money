@@ -26,7 +26,6 @@ public static class MindYourMoneyServer
 
     private static void SetUpServices(WebApplicationBuilder builder)
     {
-        // Add Services 
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
         // Add DB Context Injection (this can be cleaned up eventually)

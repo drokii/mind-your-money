@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace mind_your_money_api;
 
-static class UserApi
+internal static class UserApi
 {
-    private const String Endpoint = "/users";
+    private const string Endpoint = "/users";
 
     public static void BuildEndpoints(WebApplication app)
     { 
