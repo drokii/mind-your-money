@@ -12,16 +12,16 @@ public class UserEndpoint
         app.MapPost("/users", CreateUser);
     }
 
-    static async Task<Results<Ok<User>, NotFound>> GetUserById(int id, UserDb db) =>
+    static async Task<Results<Ok<User>, NotFound>> GetUserById(Guid id, MindYourMoneyDb db) =>
         await db.Users.FindAsync(id) 
             is {} user // This null check looks awful, I have yet to figure out a more readable version of this.
             ? TypedResults.Ok(user)
             : TypedResults.NotFound();
 
-    static async Task<List<User>> GetAllUsers(UserDb db) =>
+    static async Task<List<User?>> GetAllUsers(MindYourMoneyDb db) =>
         await db.Users.ToListAsync();
 
-    static async Task<IResult> CreateUser(User user, UserDb db)
+    static async Task<IResult> CreateUser(User? user, MindYourMoneyDb db)
     {
         db.Users.Add(user);
         await db.SaveChangesAsync();

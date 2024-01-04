@@ -1,11 +1,11 @@
-﻿namespace mind_your_domain;
-
 using System.ComponentModel.DataAnnotations;
 
-public class User
+namespace mind_your_domain;
+
+public class Group
 {
     [Key] public Guid Id { get; set; } = Guid.NewGuid();
     public string Name { get; set; }
-    public List<Group> Groups { get; } = new();
-
+    public List<User> Members { get; } = new();
+    
 }
