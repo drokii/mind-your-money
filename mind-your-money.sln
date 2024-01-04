@@ -1,10 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mind-your-money-api", "mind-your-money-api\mind-your-money-api.csproj", "{BD591F21-DD37-490D-8027-4446BC93EB9D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mind-your-money-domain", "mind-your-money-domain\mind-your-money-domain.csproj", "{1DEAE02E-4E74-44B7-BEDB-A93F0CF40BFB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mind-your-tests", "mind-your-tests\mind-your-tests.csproj", "{C0238C40-7181-4491-BB09-37A59CE53BFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mind-your-money-server", "mind-your-money-server\mind-your-money-server.csproj", "{AA795836-4BB1-479C-8D28-F57D5CB6BDF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,17 +8,9 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BD591F21-DD37-490D-8027-4446BC93EB9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BD591F21-DD37-490D-8027-4446BC93EB9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BD591F21-DD37-490D-8027-4446BC93EB9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BD591F21-DD37-490D-8027-4446BC93EB9D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1DEAE02E-4E74-44B7-BEDB-A93F0CF40BFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1DEAE02E-4E74-44B7-BEDB-A93F0CF40BFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1DEAE02E-4E74-44B7-BEDB-A93F0CF40BFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1DEAE02E-4E74-44B7-BEDB-A93F0CF40BFB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C0238C40-7181-4491-BB09-37A59CE53BFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C0238C40-7181-4491-BB09-37A59CE53BFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C0238C40-7181-4491-BB09-37A59CE53BFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C0238C40-7181-4491-BB09-37A59CE53BFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA795836-4BB1-479C-8D28-F57D5CB6BDF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA795836-4BB1-479C-8D28-F57D5CB6BDF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA795836-4BB1-479C-8D28-F57D5CB6BDF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA795836-4BB1-479C-8D28-F57D5CB6BDF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
