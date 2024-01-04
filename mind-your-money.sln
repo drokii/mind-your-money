@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mind-your-money-server", "mind-your-money-server\mind-your-money-server.csproj", "{AA795836-4BB1-479C-8D28-F57D5CB6BDF4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mind-your-tests", "mind-your-tests\mind-your-tests.csproj", "{7FFBDABC-0943-4ED2-93F7-B92491205013}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mind-your-domain", "mind-your-domain\mind-your-domain.csproj", "{1D452F91-0AEC-4D02-BA7E-3FB12AE4ACC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{AA795836-4BB1-479C-8D28-F57D5CB6BDF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA795836-4BB1-479C-8D28-F57D5CB6BDF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA795836-4BB1-479C-8D28-F57D5CB6BDF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FFBDABC-0943-4ED2-93F7-B92491205013}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FFBDABC-0943-4ED2-93F7-B92491205013}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FFBDABC-0943-4ED2-93F7-B92491205013}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FFBDABC-0943-4ED2-93F7-B92491205013}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D452F91-0AEC-4D02-BA7E-3FB12AE4ACC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D452F91-0AEC-4D02-BA7E-3FB12AE4ACC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D452F91-0AEC-4D02-BA7E-3FB12AE4ACC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D452F91-0AEC-4D02-BA7E-3FB12AE4ACC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

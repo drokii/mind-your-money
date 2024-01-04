@@ -1,6 +1,6 @@
-using Microsoft.EntityFrameworkCore;
+namespace mind_your_domain.Database;
 
-namespace mind_your_money_domain.db;
+using Microsoft.EntityFrameworkCore;
 
 public class UserDb : DbContext
 {
