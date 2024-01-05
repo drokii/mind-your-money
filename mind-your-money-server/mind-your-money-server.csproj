@@ -6,7 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <InvariantGlobalization>true</InvariantGlobalization>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <RootNamespace>WebApplication2</RootNamespace>
+        <RootNamespace>mind-your-money-server</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -27,6 +27,10 @@
 
     <ItemGroup>
       <ProjectReference Include="..\mind-your-domain\mind-your-domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Migrations\" />
     </ItemGroup>
 
 </Project>

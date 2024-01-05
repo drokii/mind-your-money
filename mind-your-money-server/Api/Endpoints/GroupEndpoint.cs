@@ -1,35 +1,38 @@
 using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using mind_your_domain;
 using mind_your_domain.Database;
 
-public class GroupEndpoint
+public static class GroupEndpoint
 {
     public static void Build(WebApplication app)
     {
         app.MapGet("/groups", GetAllGroups);
         app.MapGet("/groups/{id}", GetGroupById);
         app.MapPost("/groups", CreateGroup);
+        app.MapPut("/groups/addUser", AddUserToGroup);
     }
 
-    static async Task<Results<Ok<Group>, NotFound>> GetGroupById(Guid id, MindYourMoneyDb db) =>
+    public static async Task<Results<Ok<Group>, NotFound>> GetGroupById(Guid id, MindYourMoneyDb db) =>
         await db.Groups.FindAsync(id) 
             is {} group 
             ? TypedResults.Ok(group)
             : TypedResults.NotFound(); 
 
-    static async Task<List<Group?>> GetAllGroups(MindYourMoneyDb db) =>
-        await db.Groups.ToListAsync();
+    public static async Task<Ok<List<Group>>> GetAllGroups(MindYourMoneyDb db)
+    {
+        var groups = await db.Groups.ToListAsync();
+        return TypedResults.Ok(groups);
+    }
 
-    static async Task<IResult> CreateGroup(Group? group, MindYourMoneyDb db)
+    public static async Task<IResult> CreateGroup(Group group, MindYourMoneyDb db)
     {
         db.Groups.Add(group);
         await db.SaveChangesAsync();
         return TypedResults.Created($"/groups/group/{group.Id}", group);
     }
 
-    static async Task<Results<Ok, Conflict, NotFound>> AddUserToGroup(Guid userId, Guid groupId, MindYourMoneyDb db)
+    public static async Task<Results<Ok, Conflict, NotFound>> AddUserToGroup(Guid userId, Guid groupId, MindYourMoneyDb db)
     {
         Group? targetGroup = await db.Groups.FindAsync(groupId);
         User? targetUser = await db.Users.FindAsync(userId);
@@ -44,5 +47,6 @@ public class GroupEndpoint
         
         return TypedResults.Ok();
     }
+    
     
 }

@@ -7,7 +7,7 @@ public class MindYourMoneyDb : DbContext
     public MindYourMoneyDb(DbContextOptions<MindYourMoneyDb> options)
         : base(options) {}
 
-    public DbSet<User?> Users => Set<User>();
-    public DbSet<Group?> Groups => Set<Group>();
+    public DbSet<User> Users => Set<User>();
+    public DbSet<Group> Groups => Set<Group>();
 
 }
