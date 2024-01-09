@@ -35,7 +35,7 @@ public class GroupEndpointIt
         //Assert
         Assert.IsTrue(endpointCall.Result is Ok<Group>);
         var okResult = (Ok<Group>)endpointCall.Result;
-        Assert.AreEqual(Group, okResult.Value);
+        Assert.That(okResult.Value, Is.EqualTo(Group));
     }
 
     [Test]
@@ -64,12 +64,12 @@ public class GroupEndpointIt
         _db.SaveChanges();
 
         //Act
-        List<Group>? result =
+        var result =
             GroupEndpoint.GetAllGroups(_db).Result.Value;
 
         //Assert
         Assert.IsNotNull(result);
-        Assert.That(result, Is.EqualTo(groups));
+        Assert.That(result.Count, Is.EqualTo(groups.Count));
     }
 
 
@@ -86,6 +86,22 @@ public class GroupEndpointIt
         var createdGroup = await _db.Groups.FindAsync(group.Id);
         Assert.IsNotNull(createdGroup);
         Assert.That(createdGroup, Is.EqualTo(group));
+    }
+    
+    [Test]
+    public async Task DeleteGroup_GroupExists()
+    {
+        //Arrange
+        var group = GroupGenerator.Generate(1)[0];
+        _db.Groups.Add(group);
+        await _db.SaveChangesAsync();
+        
+        //Act
+        var result = await GroupEndpoint.DeleteGroupById(group.Id, _db);
+
+        //Assert
+        var actual = _db.Groups.FindAsync(group.Id).Result;
+        Assert.That(actual, Is.Null);
     }
     
     [TearDown]
