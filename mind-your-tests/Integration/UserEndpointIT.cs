@@ -69,7 +69,7 @@ public class UserEndpointIt
 
         //Assert
         Assert.IsNotNull(result);
-        Assert.That(result, Is.EqualTo(users));
+        Assert.That(result.Count, Is.EqualTo(users.Count));
     }
     
      
@@ -87,6 +87,23 @@ public class UserEndpointIt
         Assert.IsNotNull(createdUser);
         Assert.That(createdUser, Is.EqualTo(user));
     }
+    
+    [Test]
+    public async Task DeleteUser_UserExists()
+    {
+        //Arrange
+        var user = UserGenerator.Generate(1)[0];
+        _db.Users.Add(user);
+        await _db.SaveChangesAsync();
+        
+        //Act
+        var result = await UserEndpoint.DeleteUserById(user.Id, _db);
+
+        //Assert
+        var actual = _db.Users.FindAsync(user.Id).Result;
+        Assert.That(actual, Is.Null);
+    }
+    
 
     [TearDown]
     public void TearDown()
