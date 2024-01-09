@@ -8,10 +8,11 @@ public static class GroupEndpoint
 {
     public static void Build(WebApplication app)
     {
-        app.MapGet("/groups", GetAllGroups);
-        app.MapGet("/groups/{id}", GetGroupById);
-        app.MapPost("/groups", CreateGroup);
-        app.MapPut("/groups/addUser", AddUserToGroup);
+        app.MapGet("/groups", GetAllGroups).WithOpenApi();
+        app.MapGet("/groups/{id}", GetGroupById).WithOpenApi();
+        app.MapPost("/groups", CreateGroup).WithOpenApi();
+        app.MapPut("/groups/addUser", AddUserToGroup).WithOpenApi();
+        app.MapDelete("/group/{id}", DeleteGroupById).WithOpenApi();
     }
 
     public static async Task<Results<Ok<Group>, NotFound>> GetGroupById(Guid id, MindYourMoneyDb db) =>

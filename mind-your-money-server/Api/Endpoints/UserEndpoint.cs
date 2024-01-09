@@ -8,9 +8,10 @@ public static class UserEndpoint
 {
     public static void Build(WebApplication app)
     {
-        app.MapGet("/users", GetAllUsers);
-        app.MapGet("/users/{id}", GetUserById);
-        app.MapPost("/users", CreateUser);
+        app.MapGet("/users", GetAllUsers).WithOpenApi();
+        app.MapGet("/users/{id}", GetUserById).WithOpenApi();
+        app.MapPost("/users", CreateUser).WithOpenApi();
+        app.MapDelete("/users/{id}", DeleteUserById).WithOpenApi();
     }
 
     public static async Task<Results<Ok<User>, NotFound>> GetUserById(Guid id, MindYourMoneyDb db) =>
