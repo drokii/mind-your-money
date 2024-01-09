@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using mind_your_domain.Database;
+using mind_your_money_server.Api.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,8 @@ builder.Services.AddDbContext<MindYourMoneyDb>(options => options.UseNpgsql(conn
 // Auth Setup
 builder.Services.AddAuthentication().AddJwtBearer();
 builder.Services.AddAuthorization();
+
+AuthorizationBuilder.Build(builder);
 
 // Swagger Setup
 builder.Services.AddEndpointsApiExplorer();
@@ -25,7 +28,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 
 UserEndpoint.Build(app);
 GroupEndpoint.Build(app);

@@ -6,7 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <InvariantGlobalization>true</InvariantGlobalization>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <RootNamespace>mind-your-money-server</RootNamespace>
+        <RootNamespace>mind_your_money_server</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

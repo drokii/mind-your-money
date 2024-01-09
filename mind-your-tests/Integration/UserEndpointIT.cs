@@ -3,23 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using mind_your_domain;
 using mind_your_domain.Database;
 using mind_your_tests.Generators;
+using mind_your_tests.Utilities;
 
 namespace mind_your_tests.Integration;
 
-public class UserEndpointIt
+public class UserEndpointIt : DatabaseIntegrationTest<User>
 {
-    private MindYourMoneyDb _db;
-
-    [OneTimeSetUp]
-    public void Setup()
-    {
-        var options = new DbContextOptionsBuilder<MindYourMoneyDb>()
-            .UseInMemoryDatabase(databaseName: "Testie McTestington")
-            .Options;
-
-        _db = new MindYourMoneyDb(options);
-    }
-
     [Test]
     public async Task GetUserById_UserExists()
     {
@@ -29,15 +18,15 @@ public class UserEndpointIt
         await _db.SaveChangesAsync();
 
         //Act
-        var endpointCall = 
-             UserEndpoint.GetUserById(user.Id, _db).Result;
+        var endpointCall =
+            UserEndpoint.GetUserById(user.Id, _db).Result;
 
         //Assert
         Assert.IsTrue(endpointCall.Result is Ok<User>);
-        var okResult = (Ok<User>) endpointCall.Result;
+        var okResult = (Ok<User>)endpointCall.Result;
         Assert.That(okResult.Value, Is.EqualTo(user));
     }
-    
+
     [Test]
     public async Task GetUserById_UserDoesntExist()
     {
@@ -47,14 +36,14 @@ public class UserEndpointIt
         await _db.SaveChangesAsync();
 
         //Act
-        var endpointCall = 
+        var endpointCall =
             UserEndpoint.GetUserById(Guid.NewGuid(), _db).Result;
 
         //Assert
         Assert.IsTrue(endpointCall.Result is NotFound);
     }
-    
-    
+
+
     [Test]
     public void GetAllUsers()
     {
@@ -62,17 +51,17 @@ public class UserEndpointIt
         var users = UserGenerator.Generate(10);
         _db.Users.AddRange(users);
         _db.SaveChangesAsync();
-        
+
         //Act
-        List<User>? result = 
+        List<User>? result =
             UserEndpoint.GetAllUsers(_db).Result.Value;
 
         //Assert
         Assert.IsNotNull(result);
         Assert.That(result.Count, Is.EqualTo(users.Count));
     }
-    
-     
+
+
     [Test]
     public async Task CreateUser_ValidInput()
     {
@@ -87,7 +76,7 @@ public class UserEndpointIt
         Assert.IsNotNull(createdUser);
         Assert.That(createdUser, Is.EqualTo(user));
     }
-    
+
     [Test]
     public async Task DeleteUser_UserExists()
     {
@@ -95,21 +84,13 @@ public class UserEndpointIt
         var user = UserGenerator.Generate(1)[0];
         _db.Users.Add(user);
         await _db.SaveChangesAsync();
-        
+
         //Act
         var result = await UserEndpoint.DeleteUserById(user.Id, _db);
 
         //Assert
         var actual = _db.Users.FindAsync(user.Id).Result;
         Assert.That(actual, Is.Null);
+        Assert.That(result.Result, Is.TypeOf(typeof(Ok)));
     }
-    
-
-    [TearDown]
-    public void TearDown()
-    {
-        _db.RemoveRange(_db.Set<User>());
-    }
-    
-    
 }

@@ -1,25 +1,12 @@
 using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.EntityFrameworkCore;
 using mind_your_domain;
-using mind_your_domain.Database;
 using mind_your_tests.Generators;
+using mind_your_tests.Utilities;
 
 namespace mind_your_tests.Integration;
 
-public class GroupEndpointIt
+public class GroupEndpointIt : DatabaseIntegrationTest<Group>
 {
-    private MindYourMoneyDb _db;
-
-    [OneTimeSetUp]
-    public void Setup()
-    {
-        var options = new DbContextOptionsBuilder<MindYourMoneyDb>()
-            .UseInMemoryDatabase(databaseName: "Testy McTestington")
-            .Options;
-
-        _db = new MindYourMoneyDb(options);
-    }
-
     [Test]
     public async Task GetGroupById_GroupExists()
     {
@@ -87,7 +74,7 @@ public class GroupEndpointIt
         Assert.IsNotNull(createdGroup);
         Assert.That(createdGroup, Is.EqualTo(group));
     }
-    
+
     [Test]
     public async Task DeleteGroup_GroupExists()
     {
@@ -95,18 +82,12 @@ public class GroupEndpointIt
         var group = GroupGenerator.Generate(1)[0];
         _db.Groups.Add(group);
         await _db.SaveChangesAsync();
-        
+
         //Act
         var result = await GroupEndpoint.DeleteGroupById(group.Id, _db);
 
         //Assert
         var actual = _db.Groups.FindAsync(group.Id).Result;
         Assert.That(actual, Is.Null);
-    }
-    
-    [TearDown]
-    public void TearDown()
-    {
-        _db.RemoveRange(_db.Set<Group>());
     }
 }
