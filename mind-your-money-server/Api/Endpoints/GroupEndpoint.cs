@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.EntityFrameworkCore;
 using mind_your_domain;
-using mind_your_domain.Database;
+using mind_your_money_server.Database.Services;
 using static Microsoft.AspNetCore.Http.TypedResults;
 
 public static class GroupEndpoint
@@ -15,51 +14,52 @@ public static class GroupEndpoint
         app.MapDelete("/group/{id}", DeleteGroupById).WithOpenApi();
     }
 
-    public static async Task<Results<Ok<Group>, NotFound>> GetGroupById(Guid id, MindYourMoneyDb db) =>
-        await db.Groups.FindAsync(id) 
-            is {} group 
+    public static async Task<Results<Ok<Group>, NotFound>> GetGroupById(Guid id, GroupService? service) =>
+        await service.FindById(id)
+            is { } group
             ? Ok(group)
-            : NotFound(); 
+            : NotFound();
 
-    public static async Task<Ok<List<Group>>> GetAllGroups(MindYourMoneyDb db)
+    public static async Task<Ok<List<Group>>> GetAllGroups(GroupService service)
     {
-        var groups = await db.Groups.ToListAsync();
+        var groups = await service.GetAll();
         return Ok(groups);
     }
 
-    public static async Task<IResult> CreateGroup(Group group, MindYourMoneyDb db)
+    public static async Task<IResult> CreateGroup(Group group, GroupService service)
     {
-        db.Groups.Add(group);
-        await db.SaveChangesAsync();
-        return Created($"/groups/group/{group.Id}", group);
+        await service.Create(group);
+        return Created();
     }
 
-    public static async Task<Results<Ok, Conflict, NotFound>> AddUserToGroup(Guid userId, Guid groupId, MindYourMoneyDb db)
+    public static async Task<Results<Ok, Conflict, NotFound>> AddUserToGroup(Guid userId, Guid groupId,
+        GroupService groupService, UserService userService)
     {
-        Group? targetGroup = await db.Groups.FindAsync(groupId);
-        User? targetUser = await db.Users.FindAsync(userId);
+        Group? targetGroup = await groupService.FindById(groupId);
+        User? targetUser = await userService.FindById(userId);
 
         if (targetGroup is null || targetUser is null)
             return NotFound();
-        
-        bool userIsAlreadyInGroup = targetGroup.Members.Exists(user => user.Id.Equals(userId));
+
+        bool userIsAlreadyInGroup =
+            targetGroup.Members.Exists(
+                user => user.Id.Equals(userId)
+            );
 
         if (userIsAlreadyInGroup)
             return Conflict();
-        
+
         return Ok();
     }
 
-
-    public static async Task<Results<Ok, NotFound>> DeleteGroupById(Guid groupId, MindYourMoneyDb db)
+    public static async Task<Results<Ok, NotFound>> DeleteGroupById(Guid groupId, GroupService service)
     {
-        Group? groupToBeRemoved = await db.Groups.FindAsync(groupId);
+        Group? groupToBeRemoved = await service.FindById(groupId);
 
         if (groupToBeRemoved is null)
             return NotFound();
 
-        db.Groups.Remove(groupToBeRemoved);
-        await db.SaveChangesAsync();
+        await service.Remove(groupToBeRemoved);
         return Ok();
     }
 }

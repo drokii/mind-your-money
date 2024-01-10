@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using mind_your_domain;
-using mind_your_domain.Database.Services;
 using mind_your_money_server.Database.Services;
 using mind_your_tests.Utilities;
 
@@ -15,7 +14,7 @@ public class UserEndpointIt : DatabaseIntegrationTest<User>
     {
         _service = new UserService(_db);
     }
-    
+
     [Test]
     public async Task GetUserById_UserExists()
     {
@@ -39,7 +38,7 @@ public class UserEndpointIt : DatabaseIntegrationTest<User>
     {
         //Arrange
         var user = UserGenerator.Generate(1)[0];
-        await _service.CreateUser(user);
+        await _service.Create(user);
 
         //Act
         var endpointCall =
@@ -78,7 +77,7 @@ public class UserEndpointIt : DatabaseIntegrationTest<User>
         await UserEndpoint.CreateUser(user, _service);
 
         //Assert
-        var createdUser = await _service.FindUserById(user.Id);
+        var createdUser = await _service.FindById(user.Id);
         Assert.IsNotNull(createdUser);
         Assert.That(createdUser, Is.EqualTo(user));
     }
@@ -88,12 +87,12 @@ public class UserEndpointIt : DatabaseIntegrationTest<User>
     {
         //Arrange
         var user = UserGenerator.Generate(1)[0];
-        await _service.CreateUser(user);
+        await _service.Create(user);
         //Act
         var result = await UserEndpoint.DeleteUserById(user.Id, _service);
 
         //Assert
-        var actual = await _service.FindUserById(user.Id);
+        var actual = await _service.FindById(user.Id);
         Assert.That(actual, Is.Null);
         Assert.That(result.Result, Is.TypeOf(typeof(Ok)));
     }

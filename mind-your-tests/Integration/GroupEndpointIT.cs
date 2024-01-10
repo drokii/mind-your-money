@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using mind_your_domain;
+using mind_your_money_server.Database.Services;
 using mind_your_tests.Generators;
 using mind_your_tests.Utilities;
 
@@ -7,22 +8,30 @@ namespace mind_your_tests.Integration;
 
 public class GroupEndpointIt : DatabaseIntegrationTest<Group>
 {
+    private GroupService? _service;
+
+    [OneTimeSetUp]
+    public void SetUpService()
+    {
+        _service = new GroupService(_db);
+    }
+
     [Test]
     public async Task GetGroupById_GroupExists()
     {
         //Arrange
-        var Group = GroupGenerator.Generate(1)[0];
-        _db.Groups.Add(Group);
+        var group = GroupGenerator.Generate(1)[0];
+        _db.Groups.Add(group);
         await _db.SaveChangesAsync();
 
         //Act
         var endpointCall =
-            GroupEndpoint.GetGroupById(Group.Id, _db).Result;
+            GroupEndpoint.GetGroupById(group.Id, _service).Result;
 
         //Assert
         Assert.IsTrue(endpointCall.Result is Ok<Group>);
         var okResult = (Ok<Group>)endpointCall.Result;
-        Assert.That(okResult.Value, Is.EqualTo(Group));
+        Assert.That(okResult.Value, Is.EqualTo(group));
     }
 
     [Test]
@@ -35,7 +44,7 @@ public class GroupEndpointIt : DatabaseIntegrationTest<Group>
 
         //Act
         var endpointCall =
-            GroupEndpoint.GetGroupById(Guid.NewGuid(), _db).Result;
+            GroupEndpoint.GetGroupById(Guid.NewGuid(), _service).Result;
 
         //Assert
         Assert.IsTrue(endpointCall.Result is NotFound);
@@ -52,7 +61,7 @@ public class GroupEndpointIt : DatabaseIntegrationTest<Group>
 
         //Act
         var result =
-            GroupEndpoint.GetAllGroups(_db).Result.Value;
+            GroupEndpoint.GetAllGroups(_service).Result.Value;
 
         //Assert
         Assert.IsNotNull(result);
@@ -67,7 +76,7 @@ public class GroupEndpointIt : DatabaseIntegrationTest<Group>
         var group = GroupGenerator.Generate(1)[0];
 
         //Act
-        await GroupEndpoint.CreateGroup(group, _db);
+        await GroupEndpoint.CreateGroup(group, _service);
 
         //Assert
         var createdGroup = await _db.Groups.FindAsync(group.Id);
@@ -84,7 +93,7 @@ public class GroupEndpointIt : DatabaseIntegrationTest<Group>
         await _db.SaveChangesAsync();
 
         //Act
-        var result = await GroupEndpoint.DeleteGroupById(group.Id, _db);
+        await GroupEndpoint.DeleteGroupById(group.Id, _service);
 
         //Assert
         var actual = _db.Groups.FindAsync(group.Id).Result;
