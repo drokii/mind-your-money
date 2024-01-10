@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using mind_your_domain.Database;
+using mind_your_domain.Database.Services;
 
 namespace mind_your_tests.Utilities;
 
@@ -13,7 +14,7 @@ public abstract class DatabaseIntegrationTest<T> where T : class
         var options = new DbContextOptionsBuilder<MindYourMoneyDb>()
             .UseInMemoryDatabase(databaseName: "Testy McTestington")
             .Options;
-
+        
         _db = new MindYourMoneyDb(options);
     }
     

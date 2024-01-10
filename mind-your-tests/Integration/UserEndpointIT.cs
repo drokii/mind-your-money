@@ -1,14 +1,21 @@
 using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.EntityFrameworkCore;
 using mind_your_domain;
-using mind_your_domain.Database;
-using mind_your_tests.Generators;
+using mind_your_domain.Database.Services;
+using mind_your_money_server.Database.Services;
 using mind_your_tests.Utilities;
 
 namespace mind_your_tests.Integration;
 
 public class UserEndpointIt : DatabaseIntegrationTest<User>
 {
+    private UserService? _service;
+
+    [OneTimeSetUp]
+    public void SetUpService()
+    {
+        _service = new UserService(_db);
+    }
+    
     [Test]
     public async Task GetUserById_UserExists()
     {
@@ -19,7 +26,7 @@ public class UserEndpointIt : DatabaseIntegrationTest<User>
 
         //Act
         var endpointCall =
-            UserEndpoint.GetUserById(user.Id, _db).Result;
+            UserEndpoint.GetUserById(user.Id, _service).Result;
 
         //Assert
         Assert.IsTrue(endpointCall.Result is Ok<User>);
@@ -32,12 +39,11 @@ public class UserEndpointIt : DatabaseIntegrationTest<User>
     {
         //Arrange
         var user = UserGenerator.Generate(1)[0];
-        _db.Users.Add(user);
-        await _db.SaveChangesAsync();
+        await _service.CreateUser(user);
 
         //Act
         var endpointCall =
-            UserEndpoint.GetUserById(Guid.NewGuid(), _db).Result;
+            UserEndpoint.GetUserById(Guid.NewGuid(), _service).Result;
 
         //Assert
         Assert.IsTrue(endpointCall.Result is NotFound);
@@ -54,7 +60,7 @@ public class UserEndpointIt : DatabaseIntegrationTest<User>
 
         //Act
         List<User>? result =
-            UserEndpoint.GetAllUsers(_db).Result.Value;
+            UserEndpoint.GetAllUsers(_service).Result.Value;
 
         //Assert
         Assert.IsNotNull(result);
@@ -69,10 +75,10 @@ public class UserEndpointIt : DatabaseIntegrationTest<User>
         var user = UserGenerator.Generate(1)[0];
 
         //Act
-        await UserEndpoint.CreateUser(user, _db);
+        await UserEndpoint.CreateUser(user, _service);
 
         //Assert
-        var createdUser = await _db.Users.FindAsync(user.Id);
+        var createdUser = await _service.FindUserById(user.Id);
         Assert.IsNotNull(createdUser);
         Assert.That(createdUser, Is.EqualTo(user));
     }
@@ -82,14 +88,12 @@ public class UserEndpointIt : DatabaseIntegrationTest<User>
     {
         //Arrange
         var user = UserGenerator.Generate(1)[0];
-        _db.Users.Add(user);
-        await _db.SaveChangesAsync();
-
+        await _service.CreateUser(user);
         //Act
-        var result = await UserEndpoint.DeleteUserById(user.Id, _db);
+        var result = await UserEndpoint.DeleteUserById(user.Id, _service);
 
         //Assert
-        var actual = _db.Users.FindAsync(user.Id).Result;
+        var actual = await _service.FindUserById(user.Id);
         Assert.That(actual, Is.Null);
         Assert.That(result.Result, Is.TypeOf(typeof(Ok)));
     }

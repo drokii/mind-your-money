@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using mind_your_domain.Database;
 using mind_your_money_server.Api.Security;
+using mind_your_money_server.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,10 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<MindYourMoneyDb>(options => options.UseNpgsql(connectionString));
 
+// Dependency Setup
+DependencyRegistry.RegisterDependencies(builder);
+
 // Auth Setup
 builder.Services.AddAuthentication().AddJwtBearer();
 builder.Services.AddAuthorization();
-
 AuthorizationBuilder.Build(builder);
 
 // Swagger Setup

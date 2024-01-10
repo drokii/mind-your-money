@@ -1,5 +1,6 @@
 using Bogus;
 using mind_your_domain;
+using mind_your_money_server.Api.Security;
 
 namespace mind_your_tests.Utilities;
 
@@ -9,11 +10,18 @@ public static class UserGenerator
     {
         var fakeUser = new Faker<User>()
             .RuleFor(u => u.Name, f => f.Person.UserName)
-            .RuleFor(u => u.Password, f => f.Internet.Password())
             .RuleFor(u => u.Email, f => f.Internet.Email());
-            
-        var users = fakeUser.Generate(quantity);
 
+        var users = fakeUser.Generate(quantity);
+        
+        // Generate password & salt
+        users.ForEach(u => {
+            u.Password = SecurityUtilities.Hash("CheekyPassword", out var salt);
+            u.Salt = salt;
+        });
+        
         return users;
     }
+    
+    
 }
