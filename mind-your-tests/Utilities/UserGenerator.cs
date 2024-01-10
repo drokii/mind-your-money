@@ -4,7 +4,7 @@ using mind_your_money_server.Api.Security;
 
 namespace mind_your_tests.Utilities;
 
-public static class UserGenerator 
+public static class UserGenerator
 {
     public static List<User> Generate(int quantity)
     {
@@ -13,15 +13,15 @@ public static class UserGenerator
             .RuleFor(u => u.Email, f => f.Internet.Email());
 
         var users = fakeUser.Generate(quantity);
-        
+
         // Generate password & salt
-        users.ForEach(u => {
-            u.Password = SecurityUtilities.Hash("CheekyPassword", out var salt);
+        users.ForEach(u =>
+        {
+            var salt = SecurityUtilities.GenerateSalt();
+            u.Password = SecurityUtilities.Hash("CheekyPassword", salt);
             u.Salt = salt;
         });
-        
+
         return users;
     }
-    
-    
 }

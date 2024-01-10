@@ -9,19 +9,20 @@ namespace mind_your_tests.Integration;
 
 public class AuthenticationEndpointIt : DatabaseIntegrationTest<User>
 {
-    
-    private UserService _service;
+    private UserService _service = null!;
 
     [OneTimeSetUp]
     public void SetUpService()
     {
         _service = new UserService(_db);
     }
-    
+
     [Test]
     public async Task LogIn_CorrectCredentials()
     {
         // Arrange
+        Environment.SetEnvironmentVariable("Secret",
+            "A key has to be long enough in order to satisfy security requirements.");
         var user = UserGenerator.Generate(1)[0];
 
         _db.Users.Add(user);
@@ -30,11 +31,15 @@ public class AuthenticationEndpointIt : DatabaseIntegrationTest<User>
         var request = new LogInRequest();
         request.Password = "CheekyPassword";
         request.Username = user.Name;
-        
+
         // Act
-        var result = AuthenticationEndpoint.LogIn(request, _service);
-        
+        Results<Ok<string>, UnauthorizedHttpResult>
+            loginAttempt = await AuthenticationEndpoint.LogIn(request, _service);
+
         // Assert
-        Assert.That(request, Is.TypeOf(typeof(Ok<string>)));
+        Assert.That(loginAttempt.Result, Is.TypeOf(typeof(Ok<string>)));
+
+        if (loginAttempt.Result is Ok<string> result)
+            Console.WriteLine(result.Value);
     }
 }

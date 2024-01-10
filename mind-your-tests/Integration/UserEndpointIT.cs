@@ -7,7 +7,7 @@ namespace mind_your_tests.Integration;
 
 public class UserEndpointIt : DatabaseIntegrationTest<User>
 {
-    private UserService? _service;
+    private UserService _service = null!;
 
     [OneTimeSetUp]
     public void SetUpService()
