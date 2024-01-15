@@ -29,7 +29,7 @@ public class AuthenticationEndpointIt : DatabaseIntegrationTest<User>
         await _db.SaveChangesAsync();
 
         var request = new LogInRequest();
-        request.Password = "CheekyPassword";
+        request.Password = UserGenerator.DefaultPassword;
         request.Username = user.Name;
 
         // Act
@@ -41,5 +41,23 @@ public class AuthenticationEndpointIt : DatabaseIntegrationTest<User>
 
         if (loginAttempt.Result is Ok<string> result)
             Console.WriteLine(result.Value);
+    }
+
+    [Test]
+    public async Task RegisterUser_ValidInput()
+    {
+        //Arrange
+        var user = UserGenerator.Generate(1)[0];
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.Name = user.Name;
+        registerRequest.Password = UserGenerator.DefaultPassword;
+        registerRequest.Email = user.Email;
+
+        //Act
+        await AuthenticationEndpoint.Register(_service, registerRequest);
+
+        //Assert
+        var createdUser = await _service.GetByName(user.Name);
+        Assert.IsNotNull(createdUser);
     }
 }

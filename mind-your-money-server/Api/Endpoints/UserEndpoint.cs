@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Http.HttpResults;
+using mind;
 using mind_your_domain;
 using mind_your_money_server.Database.Services;
 using static Microsoft.AspNetCore.Http.TypedResults;
@@ -7,15 +8,14 @@ public static class UserEndpoint
 {
     public static void Build(WebApplication app)
     {
-        app.MapGet("/users", GetAllUsers).WithOpenApi();
-        app.MapGet("/users/{id}", GetUserById).WithOpenApi();
-        app.MapPost("/users", CreateUser).WithOpenApi();
-        app.MapDelete("/users/{id}", DeleteUserById).WithOpenApi();
+        app.MapGet("/users", GetAllUsers).WithOpenApi().RequireAuthorization(Policies.User.ToString());
+        app.MapGet("/users/{id}", GetUserById).WithOpenApi().RequireAuthorization(Policies.User.ToString());
+        app.MapDelete("/users/{id}", DeleteUserById).WithOpenApi().RequireAuthorization(Policies.User.ToString());
     }
 
     public static async Task<Results<Ok<User>, NotFound>> GetUserById(Guid id, UserService userService)
     {
-        var user = await userService.FindById(id);
+        var user = await userService.GetById(id);
         if (user is null)
             return NotFound();
 
@@ -29,15 +29,9 @@ public static class UserEndpoint
         return Ok(users);
     }
 
-    public static async Task<IResult> CreateUser(User user, UserService userService)
-    {
-        await userService.Create(user);
-        return Created();
-    }
-
     public static async Task<Results<Ok, NotFound>> DeleteUserById(Guid userId, UserService userService)
     {
-        var userToBeRemoved = await userService.FindById(userId);
+        var userToBeRemoved = await userService.GetById(userId);
 
         if (userToBeRemoved is null)
             return NotFound();

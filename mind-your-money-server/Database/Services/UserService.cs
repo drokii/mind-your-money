@@ -15,7 +15,6 @@ public class UserService(MindYourMoneyDb db) : IEntityService<User>
 
     public async Task Create(User user)
     {
-        // TODO: Add anti-duplicate measure
         await db.Users.AddAsync(user);
         await db.SaveChangesAsync();
     }
@@ -25,7 +24,7 @@ public class UserService(MindYourMoneyDb db) : IEntityService<User>
         return await db.Users.ToListAsync();
     }
 
-    public async Task<User?> FindById(Guid userId)
+    public async Task<User?> GetById(Guid userId)
     {
         return await db.Users.FindAsync(userId);
     }

@@ -66,22 +66,6 @@ public class UserEndpointIt : DatabaseIntegrationTest<User>
         Assert.That(result.Count, Is.EqualTo(users.Count));
     }
 
-
-    [Test]
-    public async Task CreateUser_ValidInput()
-    {
-        //Arrange
-        var user = UserGenerator.Generate(1)[0];
-
-        //Act
-        await UserEndpoint.CreateUser(user, _service);
-
-        //Assert
-        var createdUser = await _service.FindById(user.Id);
-        Assert.IsNotNull(createdUser);
-        Assert.That(createdUser, Is.EqualTo(user));
-    }
-
     [Test]
     public async Task DeleteUser_UserExists()
     {
@@ -92,7 +76,7 @@ public class UserEndpointIt : DatabaseIntegrationTest<User>
         var result = await UserEndpoint.DeleteUserById(user.Id, _service);
 
         //Assert
-        var actual = await _service.FindById(user.Id);
+        var actual = await _service.GetById(user.Id);
         Assert.That(actual, Is.Null);
         Assert.That(result.Result, Is.TypeOf(typeof(Ok)));
     }

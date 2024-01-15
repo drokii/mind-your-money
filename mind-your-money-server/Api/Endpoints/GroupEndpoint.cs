@@ -15,7 +15,7 @@ public static class GroupEndpoint
     }
 
     public static async Task<Results<Ok<Group>, NotFound>> GetGroupById(Guid id, GroupService? service) =>
-        await service.FindById(id)
+        await service.GetById(id)
             is { } group
             ? Ok(group)
             : NotFound();
@@ -35,8 +35,8 @@ public static class GroupEndpoint
     public static async Task<Results<Ok, Conflict, NotFound>> AddUserToGroup(Guid userId, Guid groupId,
         GroupService groupService, UserService userService)
     {
-        Group? targetGroup = await groupService.FindById(groupId);
-        User? targetUser = await userService.FindById(userId);
+        Group? targetGroup = await groupService.GetById(groupId);
+        User? targetUser = await userService.GetById(userId);
 
         if (targetGroup is null || targetUser is null)
             return NotFound();
@@ -54,7 +54,7 @@ public static class GroupEndpoint
 
     public static async Task<Results<Ok, NotFound>> DeleteGroupById(Guid groupId, GroupService service)
     {
-        Group? groupToBeRemoved = await service.FindById(groupId);
+        Group? groupToBeRemoved = await service.GetById(groupId);
 
         if (groupToBeRemoved is null)
             return NotFound();

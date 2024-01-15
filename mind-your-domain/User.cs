@@ -1,8 +1,7 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace mind_your_domain;
-
-using System.ComponentModel.DataAnnotations;
 
 public class User
 {
@@ -12,4 +11,17 @@ public class User
     public List<Group> Groups { get; } = [];
     [JsonIgnore] public byte[] Password { get; set; }
     [JsonIgnore] public byte[] Salt { get; set; }
+
+    // Necessary for Bogus data generation
+    public User()
+    {
+    }
+
+    public User(string name, string email, byte[] password, byte[] salt)
+    {
+        Name = name;
+        Email = email;
+        Password = password;
+        Salt = salt;
+    }
 }

@@ -18,7 +18,7 @@ public class GroupService(MindYourMoneyDb db) : IEntityService<Group>
         await db.SaveChangesAsync();
     }
 
-    public async Task<Group?> FindById(Guid id)
+    public async Task<Group?> GetById(Guid id)
     {
         return await db.Groups.FindAsync(id);
     }

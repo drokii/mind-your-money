@@ -6,6 +6,8 @@ namespace mind_your_tests.Utilities;
 
 public static class UserGenerator
 {
+    public const string DefaultPassword = "DefaultPassword";
+
     public static List<User> Generate(int quantity)
     {
         var fakeUser = new Faker<User>()
@@ -18,7 +20,7 @@ public static class UserGenerator
         users.ForEach(u =>
         {
             var salt = SecurityUtilities.GenerateSalt();
-            u.Password = SecurityUtilities.Hash("CheekyPassword", salt);
+            u.Password = SecurityUtilities.Hash(DefaultPassword, salt);
             u.Salt = salt;
         });
 

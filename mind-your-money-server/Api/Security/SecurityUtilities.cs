@@ -60,8 +60,8 @@ public static class SecurityUtilities
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-                new(ClaimTypes.Name, user.Name), // Assuming username for identification
-                new(ClaimTypes.Role, Roles.User.ToString()) // Adding a claim for the "User" role
+                new(ClaimTypes.Name, user.Name),
+                new(ClaimTypes.Role, Roles.User.ToString())
             }),
             Expires = DateTime.UtcNow.AddHours(TokenDuration),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
