@@ -3,6 +3,8 @@ using mind_your_domain;
 using mind_your_money_server.Database.Services;
 using static Microsoft.AspNetCore.Http.TypedResults;
 
+namespace mind_your_money_server.Api.Endpoints;
+
 public static class GroupEndpoint
 {
     public static void Build(WebApplication app)

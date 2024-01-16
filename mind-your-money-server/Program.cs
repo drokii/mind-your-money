@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using mind_your_domain.Database;
+using mind_your_money_server.Api.Endpoints;
 using mind_your_money_server.Api.Security;
 using mind_your_money_server.Configuration;
 
@@ -23,19 +24,17 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// More Swagger Setup
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
+AuthenticationEndpoint.Build(app);
 UserEndpoint.Build(app);
 GroupEndpoint.Build(app);
 
-
 app.MapGet("/", () => "Hello World!");
 
+app.UseHttpsRedirection();
 app.Run();

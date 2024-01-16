@@ -24,9 +24,9 @@ public class UserService(MindYourMoneyDb db) : IEntityService<User>
         return await db.Users.ToListAsync();
     }
 
-    public async Task<User?> GetById(Guid userId)
+    public async Task<User?> GetById(Guid id)
     {
-        return await db.Users.FindAsync(userId);
+        return await db.Users.FindAsync(id);
     }
 
     public async Task Remove(User userToBeRemoved)

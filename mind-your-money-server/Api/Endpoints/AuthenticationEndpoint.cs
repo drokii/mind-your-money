@@ -33,7 +33,8 @@ public static class AuthenticationEndpoint
         var hashedPassword = Hash(registerRequest.Password, salt);
 
         await userService.Create(
-            new User(registerRequest.Name,
+            new User(
+                registerRequest.Name,
                 registerRequest.Email,
                 hashedPassword,
                 salt)

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using mind_your_domain;
+using mind_your_money_server.Api.Endpoints;
 using mind_your_money_server.Database.Services;
 using mind_your_tests.Generators;
 using mind_your_tests.Utilities;
