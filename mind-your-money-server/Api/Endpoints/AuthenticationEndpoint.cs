@@ -30,15 +30,16 @@ public static class AuthenticationEndpoint
     private static async Task SafelyCreateUser(UserService userService, RegisterRequest registerRequest)
     {
         var salt = GenerateSalt();
-        var hashedPassword = Hash(registerRequest.Password, salt);
 
-        await userService.Create(
-            new User(
-                registerRequest.Name,
-                registerRequest.Email,
-                hashedPassword,
-                salt)
-        );
+        var user = new User
+        {
+            Name = registerRequest.Name,
+            Email = registerRequest.Email,
+            Salt = salt,
+            Password = Hash(registerRequest.Password, salt)
+        };
+
+        await userService.Create(user);
     }
 
     public static async Task<Results<Ok<string>, UnauthorizedHttpResult>>
