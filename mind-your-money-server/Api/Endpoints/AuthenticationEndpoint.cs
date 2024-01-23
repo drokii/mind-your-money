@@ -10,7 +10,7 @@ public static class AuthenticationEndpoint
 {
     public static void Build(WebApplication app)
     {
-        app.MapGet("/auth/login", LogIn).WithOpenApi();
+        app.MapPost("/auth/login", LogIn).WithOpenApi();
         app.MapPost("/auth/register", Register).WithOpenApi();
     }
 

@@ -16,7 +16,7 @@ public static class GroupEndpoint
         app.MapDelete("/group/{id}", DeleteGroupById).WithOpenApi();
     }
 
-    public static async Task<Results<Ok<Group>, NotFound>> GetGroupById(Guid id, GroupService? service) =>
+    public static async Task<Results<Ok<Group>, NotFound>> GetGroupById(Guid id, GroupService service) =>
         await service.GetById(id)
             is { } group
             ? Ok(group)
