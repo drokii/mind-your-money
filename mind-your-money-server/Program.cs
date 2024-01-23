@@ -18,6 +18,18 @@ builder.Services.AddAuthentication().AddJwtBearer();
 builder.Services.AddAuthorization();
 AuthorizationBuilder.Build(builder);
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000/",
+                "http://www.contoso.com");
+        });
+});
+
 // Swagger Setup
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -34,7 +46,5 @@ AuthenticationEndpoint.Build(app);
 UserEndpoint.Build(app);
 GroupEndpoint.Build(app);
 
-app.MapGet("/", () => "Hello World!");
-
-app.UseHttpsRedirection();
+app.UseCors(MyAllowSpecificOrigins);
 app.Run();

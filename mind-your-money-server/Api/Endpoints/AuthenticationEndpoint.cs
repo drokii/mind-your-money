@@ -17,6 +17,7 @@ public static class AuthenticationEndpoint
     public static async Task<Results<BadRequest<string>, Created>> Register(UserService userService,
         RegisterRequest registerRequest)
     {
+        Console.WriteLine("Request received");
         var user = await userService.GetByName(registerRequest.Name);
 
         if (user is not null)
