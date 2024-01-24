@@ -8,7 +8,6 @@ public static class AuthorizationBuilder
     {
         AddPolicy(builder, Policies.Admin, Roles.Admin);
         AddPolicy(builder, Policies.User, Roles.User);
-        // The no-role role is done purely for the sake of documentation.
         AddPolicy(builder, Policies.All, null);
     }
 
