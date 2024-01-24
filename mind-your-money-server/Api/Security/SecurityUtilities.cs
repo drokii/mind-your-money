@@ -41,10 +41,12 @@ public static class SecurityUtilities
     public static string GenerateToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        string? secret = Environment.GetEnvironmentVariable("Secret");
+        //TODO: better way 2 do this plsthx (it sucks)
+        string? secret = Environment.GetEnvironmentVariable("SECRET");
 
         if (secret == null)
-            throw new CryptographicUnexpectedOperationException("The secret's missing, bud.");
+            throw new CryptographicUnexpectedOperationException(
+                "The secret's missing, bud. Because this is in development, set the variable SECRET in your environment to solve this.");
 
         var key = ASCII.GetBytes(secret);
 
