@@ -22,6 +22,7 @@ builder.Services.AddAuthentication(
 builder.Services.AddAuthorization();
 AuthorizationBuilder.Build(builder);
 
+// Todo: Limit this to development.
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
