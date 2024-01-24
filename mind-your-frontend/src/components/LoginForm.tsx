@@ -7,23 +7,23 @@ export const LoginForm = () => {
 
     const formik = useFormik({
         initialValues: {
-            username: '',
+            name: '',
             password: '',
         },
         onSubmit: values => {
-            logIn(values.username, values.password)
+            logIn(values.name, values.password)
         },
 
     });
     return (
         <form onSubmit={formik.handleSubmit}>
-            <label htmlFor="username">Username</label>
+            <label htmlFor="name">name</label>
             <input
-                id="username"
-                name="username"
+                id="name"
+                name="name"
                 type="text"
                 onChange={formik.handleChange}
-                value={formik.values.username}
+                value={formik.values.name}
             />
             <label htmlFor="password">Password</label>
             <input

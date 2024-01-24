@@ -5,34 +5,34 @@ import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import https from 'https';
 
-
-
-export async function logIn(username: string, password: string) {
+export async function logIn(name: string, password: string) {
     axios
-        .post(URL_LOGIN, { username, password })
-        .then((response : AxiosResponse) => {
-            localStorage.setItem('jwtToken', response.data);
-            useRouter().push('/')
+        .post(URL_LOGIN, { name, password })
+        .then((response: AxiosResponse) => {
+            handleLoginSuccess(response);
+
         })
         .catch((error: AxiosError) => {
-            handleRegistrationError(error);
+            handleError(error);
         });
 }
 
-export function register(username: string, password: string, email: string) {
-    
+function handleLoginSuccess(response: AxiosResponse<any, any>) {
+    localStorage.setItem('jwtToken', response.data);
+    useRouter().push('/')
+}
+
+export function register(name: string, password: string, email: string) {
+
     axios
-        .post(URL_REGISTER, {
-            data: {username, password, email },
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-              }
-        },)
+        .post(URL_REGISTER,
+            { name, password, email }
+        )
         .then(() => {
             handleRegistrationSuccess();
         })
         .catch((error: AxiosError) => {
-            handleRegistrationError(error);
+            handleError(error);
         });
 }
 
@@ -41,7 +41,7 @@ function handleRegistrationSuccess() {
     useRouter().push('/login');
 }
 
-function handleRegistrationError(error: AxiosError) {
+function handleError(error: AxiosError) {
     if (error.response) {
         const errorStatus = error.response.status;
 

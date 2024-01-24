@@ -17,25 +17,25 @@ public static class AuthenticationEndpoint
     public static async Task<Results<BadRequest<string>, Created>> Register(UserService userService,
         RegisterRequest registerRequest)
     {
-        
         var user = await userService.GetByName(registerRequest.Name);
-        
+
         if (HasNullProperties(registerRequest))
             return TypedResults.BadRequest("Request contains null values. Cringe!");
-        
+
         if (user is not null)
             return TypedResults.BadRequest("Username has already been taken. Sorry!");
-        
+
         await SafelyCreateUser(userService, registerRequest);
 
         return TypedResults.Created();
     }
-    
+
     public static bool HasNullProperties(object obj)
     {
         return obj.GetType()
             .GetProperties()
-            .Any(prop => prop.GetValue(obj) == null);
+            .ToList()
+            .Exists(prop => prop.GetValue(obj) == null);
     }
 
     private static async Task SafelyCreateUser(UserService userService, RegisterRequest registerRequest)

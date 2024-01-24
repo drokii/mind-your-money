@@ -7,24 +7,24 @@ export const RegisterForm = () => {
 
     const formik = useFormik({
         initialValues: {
-            username: '',
+            name: '',
             email: '',
             password: '',
         },
         onSubmit: values => {
-            register(values.username, values.password, values.email)
+            register(values.name, values.password, values.email)
         },
 
     });
     return (
         <form onSubmit={formik.handleSubmit}>
-            <label htmlFor="username">Username</label>
+            <label htmlFor="name">name</label>
             <input
-                id="username"
-                name="username"
+                id="name"
+                name="name"
                 type="text"
                 onChange={formik.handleChange}
-                value={formik.values.username}
+                value={formik.values.name}
             />
             <label htmlFor="email">Password</label>
             <input
