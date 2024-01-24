@@ -32,7 +32,7 @@ public class AuthenticationEndpointIt : DatabaseIntegrationTest<User>
         var request = new LogInRequest
         {
             Password = UserGenerator.DefaultPassword,
-            Username = user.Name
+            Name = user.Name
         };
 
         // Act
@@ -59,7 +59,7 @@ public class AuthenticationEndpointIt : DatabaseIntegrationTest<User>
         var request = new LogInRequest
         {
             Password = "Wrong! Doesn't Exist! Ah!",
-            Username = user.Name
+            Name = user.Name
         };
 
         // Act

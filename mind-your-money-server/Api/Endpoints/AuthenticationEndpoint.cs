@@ -17,25 +17,17 @@ public static class AuthenticationEndpoint
     public static async Task<Results<BadRequest<string>, Created>> Register(UserService userService,
         RegisterRequest registerRequest)
     {
-        var user = await userService.GetByName(registerRequest.Name);
+        var preexistingUser = await userService.GetByName(registerRequest.Name);
 
-        if (HasNullProperties(registerRequest))
+        if (!registerRequest.IsValid())
             return TypedResults.BadRequest("Request contains null values. Cringe!");
 
-        if (user is not null)
+        if (preexistingUser is not null)
             return TypedResults.BadRequest("Username has already been taken. Sorry!");
 
         await SafelyCreateUser(userService, registerRequest);
 
         return TypedResults.Created();
-    }
-
-    public static bool HasNullProperties(object obj)
-    {
-        return obj.GetType()
-            .GetProperties()
-            .ToList()
-            .Exists(prop => prop.GetValue(obj) == null);
     }
 
     private static async Task SafelyCreateUser(UserService userService, RegisterRequest registerRequest)
@@ -56,7 +48,7 @@ public static class AuthenticationEndpoint
     public static async Task<Results<Ok<string>, UnauthorizedHttpResult>>
         LogIn(LogInRequest request, UserService userService)
     {
-        User? userLoggingIn = await userService.GetByName(request.Username);
+        User? userLoggingIn = await userService.GetByName(request.Name);
 
         if (userLoggingIn == null)
             return TypedResults.Unauthorized();
