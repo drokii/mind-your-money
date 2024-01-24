@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.EntityFrameworkCore;
 using mind_your_domain.Database;
 using mind_your_money_server.Api.Endpoints;
@@ -15,8 +16,23 @@ DependencyRegistry.RegisterDependencies(builder);
 
 // Auth Setup
 builder.Services.AddAuthentication().AddJwtBearer();
+builder.Services.AddAuthentication(
+        CertificateAuthenticationDefaults.AuthenticationScheme)
+    .AddCertificate();
 builder.Services.AddAuthorization();
 AuthorizationBuilder.Build(builder);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
+
 
 // Swagger Setup
 builder.Services.AddEndpointsApiExplorer();
@@ -34,4 +50,7 @@ AuthenticationEndpoint.Build(app);
 UserEndpoint.Build(app);
 GroupEndpoint.Build(app);
 
+app.UseCors("AllowAll");
+app.UseAuthentication();
+app.UseAuthorization();
 app.Run();
